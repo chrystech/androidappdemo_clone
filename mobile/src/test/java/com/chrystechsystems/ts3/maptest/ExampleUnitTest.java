@@ -14,4 +14,13 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+    @Test
+    public void beacon_WORKS() {
+        Beacon x = new Beacon(123456,"4",349,"Computer Lab","30.546806","-87.216669",3);
+        Beacon y = new Beacon(123456,"4",349,"Computer Lab","30.546806","-87.216669",3);
+        assertEquals(x.getID(),y.getID());
+        assertEquals(x.getBuilding(),y.getBuilding());
+        assertEquals(x.getRoom(),y.getRoom());
+        assertEquals(x.getFloor(),y.getFloor());
+    }
 }

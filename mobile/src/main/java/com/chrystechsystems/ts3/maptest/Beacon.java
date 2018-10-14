@@ -1,18 +1,35 @@
 package com.chrystechsystems.ts3.maptest;
 
+import android.os.AsyncTask;
 import android.util.JsonReader;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class Beacon implements Location {
-    int id, room, floor;
-    String name, lat, lon, bldg;
+    private static Beacon currentBeacon,targetBeacon = null;
 
-    public Beacon(int id, int bldgnum, int room, String name, String lat, String lon, int floor){
+    private int id, room, floor;
+    private String name, lat, lon, bldg;
 
+    public Beacon(int id){
+        getBeacon(id);
+    }
+    public Beacon(int id, String bldg, int room, String name, String lat, String lon, int floor){
+        this.id = id;
+        this.bldg = bldg;
+        this.room = room;
+        this.name = name;
+        this.lat = lat;
+        this.lon = lon;
+        this.floor = floor;
     }
     public Beacon(JsonReader jsonReader) throws IOException{
         jsonReader.beginArray();
@@ -45,7 +62,64 @@ public class Beacon implements Location {
             jsonReader.endObject();
         }
         jsonReader.endArray();
+        currentBeacon = this;
     }
+
+    Beacon systemBeacon = null;
+    private Beacon getBeacon(int id) {
+        final int id3 = id;
+
+
+        AsyncTask.execute(new Runnable() {
+            final int id2 = id3;
+
+            @Override
+            public void run() {
+                // Create URL
+                try {
+                    //URL githubEndpoint = new URL("https://api.github.com/");
+                    URL endPoint = new URL("http://ts3.chrystechsystems.com/api/ts3teamapikey1/beacon/" + id2);
+                    // Create connection
+                    HttpURLConnection myConnection =
+                            (HttpURLConnection) endPoint.openConnection();//.openConnection();
+
+
+                    myConnection.setRequestProperty("User-Agent", "my-rest-app-v0.1");
+
+
+                    //myConnection.setRequestProperty("Accept", "application/vnd.github.v3+json");
+                    myConnection.setRequestProperty("Accept", "application/json");
+                        /*myConnection.setRequestProperty("Contact-Me",
+                                "hathibelagal@example.com");*/
+                    if (myConnection.getResponseCode() == 200) {
+                        // Success
+                        // Further processing here
+                        InputStream responseBody = myConnection.getInputStream();
+                        InputStreamReader responseBodyReader =
+                                new InputStreamReader(responseBody, "UTF-8");
+                        JsonReader jsonReader = new JsonReader(responseBodyReader);
+                        systemBeacon = new Beacon(jsonReader);
+                    } else {
+                        // Error handling code goes here
+                    }
+
+
+                } catch (MalformedURLException MUE) {
+                    MUE.printStackTrace();
+                } catch (IOException IOE) {
+                    IOE.printStackTrace();
+                }
+            }
+        });
+        return systemBeacon;
+    }
+
+
+
+
+
+
+
     public int getID(){
         return id;
     }
@@ -60,4 +134,6 @@ public class Beacon implements Location {
     public String getLongitude(){return lon;}
     public LatLng getCoordinates(){return new LatLng(Double.parseDouble(lat),Double.parseDouble(lon));}
     public int getFloor(){return floor;}
+    public Beacon getCurrentBeacon(){return currentBeacon;}
+    public Beacon getTargetBeacon(){return targetBeacon;}
 }
