@@ -7,8 +7,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 public class InitialDisplay extends AppCompatActivity {
+    static String building = "";
+    static int room = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +24,13 @@ public class InitialDisplay extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(InitialDisplay.this,MapsActivity.class));
+                building = ((TextView) findViewById(R.id.Building)).getText().toString();
+                try {
+                    room = Integer.parseInt(((TextView) findViewById(R.id.RoomNum)).getText().toString());
+                    startActivity(new Intent(InitialDisplay.this,MapsActivity.class));
+                }catch(Exception E){
+                    Snackbar.make(view,"Room Number Is Likely Not A Number!",Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                }
             }
         });
     }
