@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">maptest</string>
+    <string name="app_name">Fox's Map</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_initial_display">Initial Display</string>
 </resources>
