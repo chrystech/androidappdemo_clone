@@ -20,7 +20,6 @@ public class Beacon implements Location {
     private String name, lat, lon, bldg;
 
     public Beacon(int id){
-        System.out.println("new Beacon");
         getBeacon(id);
     }
     public Beacon(int id, String bldg, int room, String name, String lat, String lon, int floor){
@@ -66,9 +65,8 @@ public class Beacon implements Location {
         currentBeacon = this;
     }
 
-    public static Beacon systemBeacon = null;
+    Beacon systemBeacon = null;
     private Beacon getBeacon(int id) {
-        System.out.println("Getting beacon with id: " + id);
         final int id3 = id;
 
 
@@ -77,7 +75,6 @@ public class Beacon implements Location {
 
             @Override
             public void run() {
-                System.out.println("In ASYNC Run Loop");
                 // Create URL
                 try {
                     //URL githubEndpoint = new URL("https://api.github.com/");
@@ -112,15 +109,8 @@ public class Beacon implements Location {
                 } catch (IOException IOE) {
                     IOE.printStackTrace();
                 }
-                System.out.println("Leaving Run Loop");
             }
         });
-
-        System.out.println("Returning the beacon");
-        int timeout = 10;//in seconds
-        int i = 0;
-        while(systemBeacon == null && i < timeout){try{Thread.sleep(1000);i++;}catch(InterruptedException IE){IE.printStackTrace();}}
-        System.out.println(systemBeacon.getCoordinates());
         return systemBeacon;
     }
 
@@ -142,7 +132,7 @@ public class Beacon implements Location {
     public String getLocName(){return name;}
     public String getLatitude(){return lat;}
     public String getLongitude(){return lon;}
-    public LatLng getCoordinates(){if(lat != null && lon != null)return new LatLng(Double.parseDouble(lat),Double.parseDouble(lon));else return null;}
+    public LatLng getCoordinates(){return new LatLng(Double.parseDouble(lat),Double.parseDouble(lon));}
     public int getFloor(){return floor;}
     public Beacon getCurrentBeacon(){return currentBeacon;}
     public Beacon getTargetBeacon(){return targetBeacon;}
