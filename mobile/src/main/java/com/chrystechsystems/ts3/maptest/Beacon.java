@@ -73,15 +73,16 @@ public class Beacon implements Location {
 
 
         AsyncTask.execute(new Runnable() {
-            final int id2 = id3;
-
+            //final int id2 = id3;
+            final String building = InitialDisplay.building;
+            final int room = InitialDisplay.room;
             @Override
             public void run() {
                 System.out.println("In ASYNC Run Loop");
                 // Create URL
                 try {
                     //URL githubEndpoint = new URL("https://api.github.com/");
-                    URL endPoint = new URL("http://ts3.chrystechsystems.com/api/ts3teamapikey1/beacon/" + id2);
+                    URL endPoint = new URL("http://ts3.chrystechsystems.com/api/ts3teamapikey1/beacon/find/building/" + building + "/room/" + room);
                     // Create connection
                     HttpURLConnection myConnection =
                             (HttpURLConnection) endPoint.openConnection();//.openConnection();
