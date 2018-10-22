@@ -210,6 +210,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     //                                          int[] grantResults)
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
+                    requestMapPerms();
                     return;
                 }
                 mMap.setMyLocationEnabled(true);
@@ -282,52 +283,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for ActivityCompat#requestPermissions for more details.
             requestMapPerms();
             return;
-        }
-        android.location.Location location = locMGR.getLastKnownLocation(locMGR
-                .getBestProvider(criteria, false));
-        System.out.println("System Beacon: " + systemBeacon);
-        if(systemBeacon == null)
-            systemBeacon = getBeacon(InitialDisplay.building, InitialDisplay.room);
-        if(systemBeacon != null) {
-            LatLng beacon = systemBeacon.getCoordinates();
-            //LatLng halfway = new LatLng((location.getLatitude() + beacon.latitude)/2,(location.getLongitude() + beacon.longitude)/2);
-            mMap.addMarker(new MarkerOptions().position(beacon).title(systemBeacon.getLocName()));
-            //mMap.moveCamera(CameraUpdateFactory.newLatLng(beacon));
+        }else {
+            android.location.Location location = locMGR.getLastKnownLocation(locMGR
+                    .getBestProvider(criteria, false));
+            System.out.println("System Beacon: " + systemBeacon);
+            if (systemBeacon == null)
+                systemBeacon = getBeacon(InitialDisplay.building, InitialDisplay.room);
+            if (systemBeacon != null) {
+                LatLng beacon = systemBeacon.getCoordinates();
+                //LatLng halfway = new LatLng((location.getLatitude() + beacon.latitude)/2,(location.getLongitude() + beacon.longitude)/2);
+                mMap.addMarker(new MarkerOptions().position(beacon).title(systemBeacon.getLocName()));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLng(beacon));
 
-            mMap.addPolyline(goodPolyLine(location,beacon));//new PolylineOptions().add(new LatLng(location.getLatitude(),location.getLongitude()),beacon));
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), 30));//17
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(halfway, (float)(MapReasonableZoom-Math.max(Math.abs(location.getLatitude()-beacon.latitude)*MapZoomDifferential,Math.abs(location.getLongitude()-beacon.longitude)*MapZoomDifferential))));
-            locMGR.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,3,this);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
-                    goodBounds(location, beacon),MapPadding
-            ));
-        } else {
-            try {
-                while(systemBeacon == null){
-                Thread.sleep(2000);
-                if(systemBeacon != null) {
-                    LatLng beacon = systemBeacon.getCoordinates();
-                    mMap.addMarker(new MarkerOptions().position(beacon).title(systemBeacon.getLocName()));
-                    //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(beacon, 17));
+                mMap.addPolyline(goodPolyLine(location, beacon));//new PolylineOptions().add(new LatLng(location.getLatitude(),location.getLongitude()),beacon));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), 30));//17
+                //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(halfway, (float)(MapReasonableZoom-Math.max(Math.abs(location.getLatitude()-beacon.latitude)*MapZoomDifferential,Math.abs(location.getLongitude()-beacon.longitude)*MapZoomDifferential))));
+                locMGR.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 3, this);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
+                        goodBounds(location, beacon), MapPadding
+                ));
+            } else {
+                try {
+                    while (systemBeacon == null) {
+                        Thread.sleep(2000);
+                        if (systemBeacon != null) {
+                            LatLng beacon = systemBeacon.getCoordinates();
+                            mMap.addMarker(new MarkerOptions().position(beacon).title(systemBeacon.getLocName()));
+                            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(beacon, 17));
 
-                    mMap.addPolyline(goodPolyLine(location,beacon));//new PolylineOptions().add(new LatLng(location.getLatitude(),location.getLongitude()),beacon));
-                    //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), 17));//17
-                    //LatLng halfway = new LatLng((location.getLatitude() + beacon.latitude)/2,(location.getLongitude() + beacon.longitude)/2);
-                    //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(halfway, (float)(MapReasonableZoom-Math.max(Math.abs(location.getLatitude()-beacon.latitude)*MapZoomDifferential,Math.abs(location.getLongitude()-beacon.longitude)*MapZoomDifferential))));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
-                            goodBounds(location, beacon),MapPadding
-                    ));
-                    locMGR.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,3,this);
+                            mMap.addPolyline(goodPolyLine(location, beacon));//new PolylineOptions().add(new LatLng(location.getLatitude(),location.getLongitude()),beacon));
+                            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), 17));//17
+                            //LatLng halfway = new LatLng((location.getLatitude() + beacon.latitude)/2,(location.getLongitude() + beacon.longitude)/2);
+                            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(halfway, (float)(MapReasonableZoom-Math.max(Math.abs(location.getLatitude()-beacon.latitude)*MapZoomDifferential,Math.abs(location.getLongitude()-beacon.longitude)*MapZoomDifferential))));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
+                                    goodBounds(location, beacon), MapPadding
+                            ));
+                            locMGR.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 3, this);
 
 
-                } else {
-                    LatLng sydney = new LatLng(-34, 151);
-                    mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                        } else {
+                            LatLng sydney = new LatLng(-34, 151);
+                            mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
         // Add a marker in Sydney and move the camera
@@ -335,48 +337,60 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(android.location.Location location) {
-        //Logger.getLogger("Fox's Map").log(Level.ALL,"Location Changed");
-        System.err.println("Location Changed");
-        mMap.clear();
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, MapReasonableZoom);//17
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            requestMapPerms();
+            return;
+        }else {
+            //Logger.getLogger("Fox's Map").log(Level.ALL,"Location Changed");
+            System.err.println("Location Changed");
+            mMap.clear();
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, MapReasonableZoom);//17
 
-        mMap.animateCamera(cameraUpdate);
-        //locMGR.removeUpdates(this);
-        if(systemBeacon == null)
-            systemBeacon = getBeacon(InitialDisplay.building,InitialDisplay.room);
-        if(systemBeacon != null) {
-            LatLng beacon = systemBeacon.getCoordinates();
-            mMap.addMarker(new MarkerOptions().position(beacon).title(systemBeacon.getLocName()));
-            //mMap.moveCamera(CameraUpdateFactory.newLatLng(beacon));
-            mMap.addPolyline(goodPolyLine(location,beacon));//new PolylineOptions().add(new LatLng(location.getLatitude(),location.getLongitude()),beacon));
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), 17));
-            //LatLng halfway = new LatLng((location.getLatitude() + beacon.latitude)/2,(location.getLongitude() + beacon.longitude)/2);
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(halfway, (float)(MapReasonableZoom-Math.max(Math.abs(location.getLatitude()-beacon.latitude)*MapZoomDifferential,Math.abs(location.getLongitude()-beacon.longitude)*MapZoomDifferential))));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
-                    goodBounds(location, beacon),MapPadding
-            ));
-        } else {
-            try {
-                Thread.sleep(2000);
-                if(systemBeacon != null) {
-                    LatLng beacon = systemBeacon.getCoordinates();
-                    mMap.addMarker(new MarkerOptions().position(beacon).title(systemBeacon.getLocName()));
-                    //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(beacon, 17));
-                    mMap.addPolyline(goodPolyLine(location,beacon));//new PolylineOptions().add(new LatLng(location.getLatitude(),location.getLongitude()),beacon));
-                    //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), 17));
-                    //LatLng halfway = new LatLng((location.getLatitude() + beacon.latitude)/2,(location.getLongitude() + beacon.longitude)/2);
-                    //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(halfway, (float)(MapReasonableZoom-Math.max(Math.abs(location.getLatitude()-beacon.latitude)*MapZoomDifferential,Math.abs(location.getLongitude()-beacon.longitude)*MapZoomDifferential))));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
-                            goodBounds(location, beacon),MapPadding
-                    ));
-                } else {
-                    LatLng sydney = new LatLng(-34, 151);
-                    mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                    //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap.animateCamera(cameraUpdate);
+            //locMGR.removeUpdates(this);
+            if (systemBeacon == null)
+                systemBeacon = getBeacon(InitialDisplay.building, InitialDisplay.room);
+            if (systemBeacon != null) {
+                LatLng beacon = systemBeacon.getCoordinates();
+                mMap.addMarker(new MarkerOptions().position(beacon).title(systemBeacon.getLocName()));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLng(beacon));
+                mMap.addPolyline(goodPolyLine(location, beacon));//new PolylineOptions().add(new LatLng(location.getLatitude(),location.getLongitude()),beacon));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), 17));
+                //LatLng halfway = new LatLng((location.getLatitude() + beacon.latitude)/2,(location.getLongitude() + beacon.longitude)/2);
+                //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(halfway, (float)(MapReasonableZoom-Math.max(Math.abs(location.getLatitude()-beacon.latitude)*MapZoomDifferential,Math.abs(location.getLongitude()-beacon.longitude)*MapZoomDifferential))));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
+                        goodBounds(location, beacon), MapPadding
+                ));
+            } else {
+                try {
+                    Thread.sleep(2000);
+                    if (systemBeacon != null) {
+                        LatLng beacon = systemBeacon.getCoordinates();
+                        mMap.addMarker(new MarkerOptions().position(beacon).title(systemBeacon.getLocName()));
+                        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(beacon, 17));
+                        mMap.addPolyline(goodPolyLine(location, beacon));//new PolylineOptions().add(new LatLng(location.getLatitude(),location.getLongitude()),beacon));
+                        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), 17));
+                        //LatLng halfway = new LatLng((location.getLatitude() + beacon.latitude)/2,(location.getLongitude() + beacon.longitude)/2);
+                        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(halfway, (float)(MapReasonableZoom-Math.max(Math.abs(location.getLatitude()-beacon.latitude)*MapZoomDifferential,Math.abs(location.getLongitude()-beacon.longitude)*MapZoomDifferential))));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
+                                goodBounds(location, beacon), MapPadding
+                        ));
+                    } else {
+                        LatLng sydney = new LatLng(-34, 151);
+                        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+                        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }
