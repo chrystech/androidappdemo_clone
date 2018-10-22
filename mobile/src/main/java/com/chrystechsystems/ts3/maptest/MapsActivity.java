@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.Cap;
+//import com.google.android.gms.maps.model.Cap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -30,9 +31,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+//import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,11 +52,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
+        try {
+            if (mapFragment != null) {
+                mapFragment.getMapAsync(this);
+            }
+        } catch (NullPointerException NPE){
+            NPE.printStackTrace();
+        }
     }
 
-    void readJson() {
+/*    void readJson() {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -74,10 +79,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                     //myConnection.setRequestProperty("Accept", "application/vnd.github.v3+json");
-                    myConnection.setRequestProperty("Accept", "application/json");
+                    myConnection.setRequestProperty("Accept", "application/json");*/
                         /*myConnection.setRequestProperty("Contact-Me",
                                 "hathibelagal@example.com");*/
-                    if (myConnection.getResponseCode() == 200) {
+                    /*if (myConnection.getResponseCode() == 200) {
                         // Success
                         // Further processing here
                         InputStream responseBody = myConnection.getInputStream();
@@ -96,12 +101,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 System.out.println(key);
                                 //if (key.equals("name")) {
                                 //String value = jsonReader.nextString();
-                                value += jsonReader.nextString() + "\n";
+                                value += jsonReader.nextString() + "\n";*/
                                 /*Snackbar.make(findViewById(R.id.toolbar), value, Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();*/
                                 //}
                                 //else {jsonReader.skipValue();}
-                            }
+                            /*}
                             jsonReader.endObject();
                         }
 
@@ -119,20 +124,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-
+*/
 
     final void setBeacon(Beacon beacon) {
         systemBeacon = beacon;
     }
 
-    Beacon getBeacon(int id) {
-        final int id3 = id;
-
+    Beacon getBeacon(String buildingId, int roomNumber) {
+        final String buildingTop = buildingId;
+        final int roomTop = roomNumber;
 
         AsyncTask.execute(new Runnable() {
             //final int id2 = id3;
-            final String building = InitialDisplay.building;
-            final int room = InitialDisplay.room;
+            final String building = buildingTop;
+            final int room = roomTop;
 
             @Override
             public void run() {
@@ -145,7 +150,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             (HttpURLConnection) endPoint.openConnection();//.openConnection();
 
 
-                    myConnection.setRequestProperty("User-Agent", "my-rest-app-v0.1");
+                    myConnection.setRequestProperty("User-Agent", "Fox_sMap-v0.1");
 
 
                     //myConnection.setRequestProperty("Accept", "application/vnd.github.v3+json");
@@ -162,11 +167,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         systemBeacon = new Beacon(jsonReader);
                     } else {
                         // Error handling code goes here
+                        System.err.println("Couldn't get a successful response from the server, is the server down?");
                     }
 
 
-                } catch (MalformedURLException MUE) {
-                    MUE.printStackTrace();
                 } catch (IOException IOE) {
                     IOE.printStackTrace();
                 }
@@ -186,11 +190,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * When Device requests permissions, handle them?
+     * @param requestCode request code for permission request
+     * @param permissions permissions being requested
+     * @param grantResults did the user grant these permissions
+     */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == R_CODE_LOC_FINE_PERM) {
             if (permissions.length == 1 &&
-                    permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
+                    permissions[0].equalsIgnoreCase(Manifest.permission.ACCESS_FINE_LOCATION) &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -205,6 +215,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.setMyLocationEnabled(true);
             } else {
                 // Permission was denied. Display an error message.
+                System.err.println("Error requesting permissions from user... Application will not work without permissions.");
             }
         }
 
@@ -212,6 +223,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     final int MapReasonableZoom = 17;
     final int MapPadding = 100;
 
+    /**
+     * Get a good set of bounds for the viewport based on your current location and the location of the beacon target
+     * @param location Your current device location
+     * @param beacon LatLng of the beacon target
+     * @return LatLngBounds object specifying correct latitude and longitude of diagonal corners for viewport based on location of the beacon and your device
+     */
     LatLngBounds goodBounds(Location location, LatLng beacon){
         return new LatLngBounds(
                 new LatLng(Math.min(location.getLatitude(),beacon.latitude),Math.min(location.getLongitude(),beacon.longitude)),//northeast
@@ -219,6 +236,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         );//padding
     }
 
+    /**
+     * Get a good polyline option set for the current instructions
+     * @param location Your current device location
+     * @param beacon LatLng of the beacon target
+     * @return PolylineOptions options specifying the correct indicators for the polyline connecting current location and beacon location
+     */
     PolylineOptions goodPolyLine(Location location, LatLng beacon){
         PolylineOptions p = new PolylineOptions().add(new LatLng(location.getLatitude(),location.getLongitude()),beacon);
         float[] e = new float[3];
@@ -236,6 +259,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
+     * @param googleMap The map object
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -263,7 +287,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .getBestProvider(criteria, false));
         System.out.println("System Beacon: " + systemBeacon);
         if(systemBeacon == null)
-            getBeacon(123456);
+            systemBeacon = getBeacon(InitialDisplay.building, InitialDisplay.room);
         if(systemBeacon != null) {
             LatLng beacon = systemBeacon.getCoordinates();
             //LatLng halfway = new LatLng((location.getLatitude() + beacon.latitude)/2,(location.getLongitude() + beacon.longitude)/2);
@@ -320,7 +344,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(cameraUpdate);
         //locMGR.removeUpdates(this);
         if(systemBeacon == null)
-            getBeacon(123456);
+            systemBeacon = getBeacon(InitialDisplay.building,InitialDisplay.room);
         if(systemBeacon != null) {
             LatLng beacon = systemBeacon.getCoordinates();
             mMap.addMarker(new MarkerOptions().position(beacon).title(systemBeacon.getLocName()));

@@ -1,8 +1,17 @@
 package com.chrystechsystems.ts3.maptest;
 
+import android.util.JsonReader;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.StringReader;
+
 import static org.junit.Assert.*;
+
+
 
 /**
  * Example local unit test, which will execute on the development machine (host).
