@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">maptest</string>
+    <string name="app_name">Fox\'s Map</string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_initial_display">Initial Display</string>
+    <string name="title_activity_initial_display">Fox\'s Map</string>
+    <string name="building">Building</string>
+    <string name="room_number">Room Number</string>
+    <string name="location">Location</string>
+    <string name="person">Person</string>
+    <string name="class_section">Class</string>
+    <string name="title_activity_indoor_tracking">IndoorTracking</string>
 </resources>

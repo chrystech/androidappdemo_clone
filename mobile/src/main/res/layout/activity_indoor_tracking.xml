@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InitialDisplay">
+    tools:context=".IndoorTracking">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,11 +20,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_initial_display"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="top|center" />
+    <include layout="@layout/content_indoor_tracking" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -32,8 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_map" />
-
-
+        app:srcCompat="@android:drawable/ic_menu_camera" />
 
 </android.support.design.widget.CoordinatorLayout>
