@@ -23,10 +23,16 @@
         android:id="@+id/imageButton2"
         android:layout_width="182dp"
         android:layout_height="183dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginStart="101dp"
+        android:layout_marginTop="32dp"
         android:background="@color/colorAccent"
         android:elevation="24dp"
         android:fadingEdge="horizontal"
-        app:srcCompat="@android:drawable/stat_sys_upload"
-        tools:layout_editor_absoluteX="101dp"
-        tools:layout_editor_absoluteY="173dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/stat_sys_upload" />
 </android.support.constraint.ConstraintLayout>
