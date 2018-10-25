@@ -244,11 +244,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @return PolylineOptions options specifying the correct indicators for the polyline connecting current location and beacon location
      */
     PolylineOptions goodPolyLine(Location location, LatLng beacon){
+        System.err.println(location.getAccuracy());
         PolylineOptions p = new PolylineOptions().add(new LatLng(location.getLatitude(),location.getLongitude()),beacon);
         float[] e = new float[3];
         distanceBetween(location.getLatitude(),location.getLongitude(),beacon.latitude,beacon.longitude, e);
         if(e[0] > 100) p.color(Color.RED);
-        else if (e[0] > 20) p.color(Color.rgb(255,0,255));
+        else if (e[0] > 50) p.color(Color.rgb(255,0,255));
         else p.color(Color.BLUE);
         return p;
     }
@@ -369,6 +370,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
                         goodBounds(location, beacon), MapPadding
                 ));
+                float e[] = new float[3];
+                distanceBetween(location.getLatitude(), location.getLongitude(), beacon.latitude, beacon.longitude, e);
+                if(location.getAccuracy() > 10 && e[0] <= 50){
+                    System.err.println("Client is in or around building target");
+                }
             } else {
                 try {
                     Thread.sleep(2000);

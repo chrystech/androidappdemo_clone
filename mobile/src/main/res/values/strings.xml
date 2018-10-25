@@ -7,4 +7,5 @@
     <string name="location">Location</string>
     <string name="person">Person</string>
     <string name="class_section">Class</string>
+    <string name="title_activity_indoor_tracking">IndoorTracking</string>
 </resources>
