@@ -2,6 +2,7 @@ package com.chrystechsystems.ts3.maptest;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Criteria;
@@ -40,6 +41,7 @@ import static android.location.Location.distanceBetween;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
     public static Beacon systemBeacon = Beacon.systemBeacon;
+    public static LatLng lastRecordedLocation = new LatLng(0,0);
 
     private GoogleMap mMap;
     LocationManager locMGR;
@@ -288,6 +290,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             android.location.Location location = locMGR.getLastKnownLocation(locMGR
                     .getBestProvider(criteria, false));
             System.out.println("System Beacon: " + systemBeacon);
+            lastRecordedLocation = new LatLng(location.getLatitude(),location.getLongitude());
             if (systemBeacon == null)
                 systemBeacon = getBeacon(InitialDisplay.building, InitialDisplay.room);
             if (systemBeacon != null) {
@@ -353,6 +356,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             System.err.println("Location Changed");
             mMap.clear();
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            lastRecordedLocation = latLng;
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, MapReasonableZoom);//17
 
             mMap.animateCamera(cameraUpdate);
@@ -372,8 +376,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ));
                 float e[] = new float[3];
                 distanceBetween(location.getLatitude(), location.getLongitude(), beacon.latitude, beacon.longitude, e);
-                if(location.getAccuracy() > 10 && e[0] <= 50){
+                System.err.println("Accuracy at: " + location.getAccuracy());
+                if(location.getAccuracy() > 2 && e[0] <= 50){
                     System.err.println("Client is in or around building target");
+                    startActivity(new Intent(MapsActivity.this,IndoorTracking.class));
                 }
             } else {
                 try {
