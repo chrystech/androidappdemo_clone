@@ -53,6 +53,15 @@ public class IndoorTracking extends AppCompatActivity implements SensorEventList
 
         mSensorManager.unregisterListener(this);
     }
+    public static double getBearing(LatLng currentLocation, LatLng targetLocation){
+        //https://stackoverflow.com/questions/8123049/calculate-bearing-between-two-locations-lat-long
+        double dLon = targetLocation.longitude - currentLocation.longitude;
+        double y = Math.sin(dLon) * Math.cos(targetLocation.latitude);
+        double x = Math.cos(currentLocation.latitude)*Math.sin(targetLocation.latitude) - Math.sin(currentLocation.latitude)*Math.cos(targetLocation.latitude)*Math.cos(dLon);
+        double brng = Math.toDegrees((Math.atan2(y, x)));
+        brng = (360 - ((brng + 360) % 360));
+        return brng;
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {

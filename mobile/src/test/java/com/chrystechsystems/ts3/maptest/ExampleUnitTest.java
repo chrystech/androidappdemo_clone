@@ -32,5 +32,4 @@ public class ExampleUnitTest {
         assertEquals(x.getRoom(),y.getRoom());
         assertEquals(x.getFloor(),y.getFloor());
     }
-
 }
