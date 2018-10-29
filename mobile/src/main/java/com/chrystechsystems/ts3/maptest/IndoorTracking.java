@@ -1,5 +1,6 @@
 package com.chrystechsystems.ts3.maptest;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -12,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -21,6 +23,7 @@ public class IndoorTracking extends AppCompatActivity implements SensorEventList
     private SensorManager mSensorManager;
     private ImageView directionImage;
     private float lastHeading = 0f;
+    private int requestCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +37,7 @@ public class IndoorTracking extends AppCompatActivity implements SensorEventList
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivityForResult(new Intent("QRCReader"), requestCode);
             }
         });
     }
