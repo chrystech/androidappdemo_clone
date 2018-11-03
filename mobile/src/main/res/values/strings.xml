@@ -9,4 +9,6 @@
     <string name="class_section">Class</string>
     <string name="title_activity_indoor_tracking">IndoorTracking</string>
     <string name="title_activity_login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
 </resources>

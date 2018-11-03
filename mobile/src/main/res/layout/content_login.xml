@@ -4,7 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Login"
+    tools:showIn="@layout/activity_login">
 
     <EditText
         android:id="@+id/password"
@@ -16,7 +19,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="152dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:singleLine="true"
         android:textAlignment="center"
@@ -28,7 +31,7 @@
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|center"
         android:layout_marginStart="8dp"
@@ -36,7 +39,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="20dp"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         android:singleLine="true"
         android:textAlignment="center"
@@ -60,5 +63,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login as Guest"
+        tools:layout_editor_absoluteX="637dp"
+        tools:layout_editor_absoluteY="351dp" />
 
 </android.support.constraint.ConstraintLayout>
