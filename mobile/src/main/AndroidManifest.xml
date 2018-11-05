@@ -10,10 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -41,10 +37,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBCmXi_t1eFJowuDohuhEmuLJBrbbpABYw" />
-        <!--
-            android:name="com.google.android.gms.vision.DEPENDENCIES"
-            //android:value="barcode"
-        -->
 
         <activity
             android:name=".MapsActivity"
@@ -63,15 +55,6 @@
             android:name=".IndoorTracking"
             android:label="@string/title_activity_indoor_tracking"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".QRCReader"
-            android:label="@string/title_activity_qrcreader"
-            android:parentActivityName=".MapsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chrystechsystems.ts3.maptest.MapsActivity" />
-        </activity>
     </application>
 
 </manifest>
