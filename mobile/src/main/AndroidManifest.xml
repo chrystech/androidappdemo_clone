@@ -43,15 +43,14 @@
             android:label="@string/title_activity_maps" />
         <activity
             android:name=".Login"
-            android:label="Fox's Map"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:label="Fox&apos;s Map"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".InitialDisplay"
             android:label="@string/title_activity_initial_display"
@@ -60,6 +59,10 @@
             android:name=".IndoorTracking"
             android:label="@string/title_activity_indoor_tracking"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Registration"
+            android:label="@string/title_activity_registration"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
