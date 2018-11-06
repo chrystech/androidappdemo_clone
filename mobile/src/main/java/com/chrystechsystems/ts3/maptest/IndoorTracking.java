@@ -28,16 +28,16 @@ public class IndoorTracking extends AppCompatActivity implements SensorEventList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_indoor_tracking);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = /*(Toolbar)*/ findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = /*(FloatingActionButton)*/ findViewById(R.id.fab);
         directionImage = findViewById(R.id.directionImage);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent("QRCReader"), requestCode);
+                startActivityForResult(new Intent(IndoorTracking.this, QRCReader.class), requestCode);
             }
         });
     }

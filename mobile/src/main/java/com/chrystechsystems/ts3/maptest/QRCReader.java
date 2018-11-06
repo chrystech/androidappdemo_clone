@@ -1,6 +1,7 @@
 package com.chrystechsystems.ts3.maptest;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -30,11 +31,10 @@ public class QRCReader extends AppCompatActivity {
 
     Intent data;
     SurfaceView cameraPreview;
+    Context context = this;
+//    make barcode reader
+    BarcodeDetector barcodeDetector;
 
-    //make barcode reader
-    BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(this)
-            .setBarcodeFormats(Barcode.QR_CODE)
-            .build();
     CameraSource cameraSource;
     final int RequestCameraPermissionID = 1001;
 
@@ -60,9 +60,15 @@ public class QRCReader extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_qrcreader);
 
         //make preview surface
         cameraPreview = findViewById(R.id.cameraPreview);
+
+        //make barcode
+        barcodeDetector = new BarcodeDetector.Builder(context)
+                .setBarcodeFormats(Barcode.QR_CODE)
+                .build();
 
         //set up camera source
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
