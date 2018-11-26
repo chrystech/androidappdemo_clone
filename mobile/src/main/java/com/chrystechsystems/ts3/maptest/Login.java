@@ -9,11 +9,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 public class Login extends AppCompatActivity {
     static String username = "";
     static String password = "";
 
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +26,14 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // The GoogleSignInOptions object. DEFAULT_SIGN_IN and requestEmail ask for basic user information and email respectively,
+        // the string passed into requestIdToken is an OAuth 2.0 Client ID for the API/backend
+        // backend probably has to be configured to accept the IdToken and use it to communicate with google-services for authentication
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestIdToken("742671130780-nu8ksuf3k171iuepshq0pdufgdnq3tqd.apps.googleusercontent.com")
+                .build();
 
         // Code for guest button: skips to initial display (screen where you enter bldg and rm info)
         Button guestButton = findViewById(R.id.guestButton);
@@ -55,6 +68,8 @@ public class Login extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        // mGoogleSignInClient = GoogleSignIn.getClient(activity:this, gso);
     }
 
 }

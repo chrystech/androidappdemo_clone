@@ -1,0 +1,74 @@
+Starting a Gradle Daemon, 1 incompatible Daemon could not be reused, use --status for details
+:mobile:preBuild UP-TO-DATE
+:mobile:preDebugBuild UP-TO-DATE
+:mobile:compileDebugAidl UP-TO-DATE
+:mobile:compileDebugRenderscript UP-TO-DATE
+:mobile:checkDebugManifest UP-TO-DATE
+:mobile:generateDebugBuildConfig UP-TO-DATE
+:mobile:prepareLintJar UP-TO-DATE
+:mobile:mainApkListPersistenceDebug UP-TO-DATE
+:mobile:generateDebugResValues UP-TO-DATE
+:mobile:generateDebugResources UP-TO-DATE
+:mobile:mergeDebugResources UP-TO-DATE
+:mobile:createDebugCompatibleScreenManifests UP-TO-DATE
+:mobile:processDebugManifest
+:mobile:splitsDiscoveryTaskDebug UP-TO-DATE
+:mobile:processDebugResources
+:mobile:generateDebugSources
+:mobile:javaPreCompileDebug UP-TO-DATE
+:mobile:compileDebugJavaWithJavac UP-TO-DATE
+:mobile:compileDebugNdk NO-SOURCE
+:mobile:compileDebugSources UP-TO-DATE
+:mobile:mergeDebugShaders UP-TO-DATE
+:mobile:compileDebugShaders UP-TO-DATE
+:mobile:generateDebugAssets UP-TO-DATE
+:mobile:mergeDebugAssets UP-TO-DATE
+:mobile:transformClassesWithDexBuilderForDebug
+:mobile:transformDexArchiveWithExternalLibsDexMergerForDebug
+:mobile:transformDexArchiveWithDexMergerForDebug
+:mobile:mergeDebugJniLibFolders UP-TO-DATE
+:mobile:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+:mobile:processDebugJavaRes NO-SOURCE
+:mobile:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+:mobile:validateSigningDebug UP-TO-DATE
+:mobile:packageDebug
+:mobile:assembleDebug
+:mobile:preReleaseBuild
+:mobile:compileReleaseAidl
+:mobile:compileReleaseRenderscript
+:mobile:checkReleaseManifest
+:mobile:generateReleaseBuildConfig
+:mobile:mainApkListPersistenceRelease
+:mobile:generateReleaseResValues
+:wear:preBuild UP-TO-DATE
+:wear:preReleaseBuild
+:wear:compileReleaseAidl
+:wear:compileReleaseRenderscript
+:wear:checkReleaseManifest
+:wear:generateReleaseBuildConfig
+:wear:prepareLintJar UP-TO-DATE
+:wear:mainApkListPersistenceRelease
+:wear:generateReleaseResValues
+:wear:generateReleaseResources
+:wear:mergeReleaseResources
+:wear:createReleaseCompatibleScreenManifests
+:wear:processReleaseManifest
+:wear:splitsDiscoveryTaskRelease
+:wear:processReleaseResources
+:wear:generateReleaseSources
+:wear:javaPreCompileRelease
+:wear:compileReleaseJavaWithJavac FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':wear:compileReleaseJavaWithJavac'.
+> Could not find tools.jar. Please check that C:\Program Files\Java\jre1.8.0_191 contains a valid JDK installation.
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 52s
+48 actionable tasks: 27 executed, 21 up-to-date
