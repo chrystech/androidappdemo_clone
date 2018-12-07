@@ -83,7 +83,7 @@ public class Beacon implements Location {
                 // Create URL
                 try {
                     //URL githubEndpoint = new URL("https://api.github.com/");
-                    URL endPoint = new URL("http://ts3.chrystechsystems.com/api/ts3teamapikey1/beacon/find/building/" + building + "/room/" + room);
+                    URL endPoint = new URL("https://ts3.chrystechsystems.com/api/ts3teamapikey1/beacon/find/building/" + building + "/room/" + room);
                     // Create connection
                     HttpURLConnection myConnection =
                             (HttpURLConnection) endPoint.openConnection();//.openConnection();
