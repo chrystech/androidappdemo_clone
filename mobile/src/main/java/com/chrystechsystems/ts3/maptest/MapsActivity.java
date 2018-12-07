@@ -70,8 +70,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // Create URL
                 try {
                     //URL githubEndpoint = new URL("https://api.github.com/");
-                    //URL endPoint = new URL("http://ts3.chrystechsystems.com/api/ts3teamapikey1/beacon/123456");
-                    URL endPoint = new URL("http://ts3.chrystechsystems.com/api/ts3teamapikey1/beacon/find/building/" + InitialDisplay.building + "/room/" + InitialDisplay.room);
+                    //URL endPoint = new URL("https://ts3.chrystechsystems.com/api/ts3teamapikey1/beacon/123456");
+                    URL endPoint = new URL("https://ts3.chrystechsystems.com/api/ts3teamapikey1/beacon/find/building/" + InitialDisplay.building + "/room/" + InitialDisplay.room);
                     // Create connection
                     HttpURLConnection myConnection =
                             (HttpURLConnection) endPoint.openConnection();//.openConnection();
@@ -146,7 +146,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // Create URL
                 try {
                     //URL githubEndpoint = new URL("https://api.github.com/");
-                    URL endPoint = new URL("http://ts3.chrystechsystems.com/api/ts3teamapikey1/beacon/find/building/" + building + "/room/" + room);
+                    URL endPoint = new URL("https://ts3.chrystechsystems.com/api/ts3teamapikey1/beacon/find/building/" + building + "/room/" + room);
                     // Create connection
                     HttpURLConnection myConnection =
                             (HttpURLConnection) endPoint.openConnection();//.openConnection();
